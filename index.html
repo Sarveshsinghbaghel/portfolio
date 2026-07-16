@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarvesh Singh Baghel — Full-Stack Developer</title>
+<meta name="description" content="Portfolio of Sarvesh Singh Baghel, full-stack MERN developer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E14;
+    --bg-raised:#111822;
+    --bg-raised-2:#151E29;
+    --line:#232E3D;
+    --line-soft:#1A232F;
+    --text:#E8ECF1;
+    --text-dim:#8493A6;
+    --text-faint:#556274;
+    --teal:#21C99C;
+    --teal-dim:#0F7A5D;
+    --amber:#F0A857;
+    --coral:#E86A5C;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+    --font-body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--teal); color:#04211A;}
+
+  /* ---------- TICKER TAPE ---------- */
+  .ticker-wrap{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:var(--bg-raised);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    white-space:nowrap;
+    height:40px;
+    display:flex;
+    align-items:center;
+  }
+  .ticker-track{
+    display:inline-flex;
+    animation:scroll-left 38s linear infinite;
+    will-change:transform;
+  }
+  .ticker-item{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:0 24px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:0.02em;
+    border-right:1px solid var(--line-soft);
+  }
+  .ticker-item .sym{color:var(--text); font-weight:600;}
+  .ticker-item .chg{font-weight:500;}
+  .up{color:var(--teal);}
+  .flat{color:var(--amber);}
+  @keyframes scroll-left{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track{animation:none;}
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;
+    top:40px;
+    z-index:99;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px clamp(20px,5vw,64px);
+    background:rgba(10,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-logo{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:14px;
+    color:var(--teal);
+    letter-spacing:0.05em;
+  }
+  .nav-links{
+    display:flex;
+    gap:clamp(16px,3vw,32px);
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+  }
+  .nav-links a{transition:color .15s;}
+  .nav-links a:hover{color:var(--teal);}
+  @media (max-width:640px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- LAYOUT ---------- */
+  section{
+    padding:clamp(48px,8vw,96px) clamp(20px,5vw,64px);
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--teal);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:16px;
+    height:1px;
+    background:var(--teal);
+  }
+  h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(24px,3.4vw,34px);
+    letter-spacing:-0.01em;
+    margin-bottom:32px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:48px;
+    align-items:center;
+    padding-top:clamp(56px,9vw,110px);
+    padding-bottom:clamp(56px,9vw,110px);
+  }
+  .hero-symbol{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-faint);
+    letter-spacing:0.15em;
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(38px,6.2vw,64px);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  .hero h1 .accent{color:var(--teal);}
+  .hero-tagline{
+    font-size:clamp(15px,1.8vw,18px);
+    color:var(--text-dim);
+    max-width:46ch;
+    margin-bottom:32px;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:500;
+    padding:12px 22px;
+    border-radius:4px;
+    border:1px solid var(--line);
+    transition:all .15s;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-primary{
+    background:var(--teal);
+    color:#04211A;
+    border-color:var(--teal);
+  }
+  .btn-primary:hover{background:#2EE0AF;}
+  .btn-ghost{
+    color:var(--text);
+    background:transparent;
+  }
+  .btn-ghost:hover{border-color:var(--text-dim); background:var(--bg-raised);}
+
+  /* watchlist card */
+  .watchlist{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .watchlist-head{
+    padding:14px 18px;
+    border-bottom:1px solid var(--line);
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    display:flex;
+    justify-content:space-between;
+  }
+  .watchlist-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 18px;
+    border-bottom:1px solid var(--line-soft);
+    font-family:var(--font-mono);
+    font-size:13px;
+  }
+  .watchlist-row:last-child{border-bottom:none;}
+  .wl-label{color:var(--text-dim);}
+  .wl-value{font-weight:600; color:var(--text);}
+  .wl-value.teal{color:var(--teal);}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+  .about-text{
+    font-size:15.5px;
+    color:var(--text-dim);
+    max-width:75ch;
+  }
+  .about-text strong{color:var(--text); font-weight:600;}
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .skill-cell{
+    background:var(--bg-raised);
+    padding:20px;
+  }
+  .skill-cell h3{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--teal);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:3px;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:24px;
+    overflow:hidden;
+  }
+  .project-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    background:var(--bg-raised-2);
+    border-bottom:1px solid var(--line);
+  }
+  .dot{width:9px; height:9px; border-radius:50%;}
+  .dot.r{background:var(--coral);}
+  .dot.a{background:var(--amber);}
+  .dot.g{background:var(--teal);}
+  .project-bar-title{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    margin-left:8px;
+  }
+  .project-body{
+    padding:clamp(20px,3vw,32px);
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:32px;
+    align-items:center;
+  }
+  @media (max-width:800px){
+    .project-body{grid-template-columns:1fr;}
+  }
+  .project-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .project-desc{
+    color:var(--text-dim);
+    font-size:14.5px;
+    margin-bottom:16px;
+  }
+  .project-feats{
+    list-style:none;
+    margin-bottom:18px;
+  }
+  .project-feats li{
+    font-size:14px;
+    color:var(--text-dim);
+    padding-left:18px;
+    position:relative;
+    margin-bottom:8px;
+  }
+  .project-feats li::before{
+    content:'▸';
+    position:absolute;
+    left:0;
+    color:var(--teal);
+  }
+  .stack-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:18px;
+  }
+  .stack-tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--teal);
+    background:rgba(33,201,156,0.08);
+    border:1px solid rgba(33,201,156,0.25);
+    padding:3px 8px;
+    border-radius:3px;
+  }
+  .proj-links a{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text);
+    border-bottom:1px solid var(--text-faint);
+    margin-right:20px;
+    padding-bottom:2px;
+    transition:border-color .15s, color .15s;
+  }
+  .proj-links a:hover{color:var(--teal); border-color:var(--teal);}
+
+  /* mock visual panels */
+  .mock-panel{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px;
+    height:220px;
+    position:relative;
+  }
+  .mock-panel .mp-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .mock-panel .mp-value{
+    font-family:var(--font-mono);
+    font-size:24px;
+    font-weight:600;
+    color:var(--teal);
+    margin-bottom:4px;
+  }
+  .mock-panel .mp-sub{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+    margin-bottom:14px;
+  }
+  svg.spark{width:100%; height:110px; display:block;}
+
+  .calc-rows{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
+  .calc-row{
+    display:flex;
+    justify-content:space-between;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+    border-bottom:1px dashed var(--line);
+    padding-bottom:8px;
+  }
+  .calc-row span:last-child{color:var(--text); font-weight:600;}
+
+  /* portfolio-site small card */
+  .mini-project{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .mini-project h3{
+    font-family:var(--font-display);
+    font-size:17px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .mini-project p{font-size:13.5px; color:var(--text-dim);}
+
+  /* ---------- EDUCATION ---------- */
+  .edu-item{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:24px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .edu-item:last-child{border-bottom:none;}
+  .edu-year{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--teal);
+  }
+  .edu-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:16.5px;
+    margin-bottom:4px;
+  }
+  .edu-sub{color:var(--text-dim); font-size:13.5px;}
+  .edu-score{
+    font-family:var(--font-mono);
+    color:var(--text-faint);
+    font-size:12.5px;
+    margin-top:6px;
+  }
+
+  /* ---------- CERTS ---------- */
+  .cert-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:12px;
+  }
+  .cert-card{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:16px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .cert-name{font-size:13.5px; font-weight:500; margin-bottom:4px;}
+  .cert-issuer{font-family:var(--font-mono); font-size:11px; color:var(--text-faint);}
+  .cert-badge{
+    font-family:var(--font-mono);
+    font-size:10px;
+    color:var(--teal);
+    background:rgba(33,201,156,0.1);
+    border:1px solid rgba(33,201,156,0.3);
+    padding:2px 7px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-section{
+    text-align:center;
+    padding-top:clamp(56px,8vw,100px);
+    padding-bottom:clamp(56px,8vw,100px);
+  }
+  .contact-section .eyebrow{justify-content:center;}
+  .contact-section .eyebrow::before{display:none;}
+  .contact-section h2{
+    font-size:clamp(28px,4vw,40px);
+  }
+  .contact-links{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:32px;
+  }
+  footer{
+    text-align:center;
+    padding:24px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    border-top:1px solid var(--line-soft);
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-logo">SSB / TERMINAL</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-symbol">SYMBOL: SSB &nbsp;·&nbsp; STATUS: OPEN TO OPPORTUNITIES</div>
+    <h1>Sarvesh Singh Baghel<br><span class="accent">builds full-stack products.</span></h1>
+    <p class="hero-tagline">Final-year IT student who builds trading simulators and financial planning tools with the MERN stack — where the interesting problems are real-time data, state, and the math underneath.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">View projects</a>
+      <a class="btn btn-ghost" href="mailto:singhbaghelsarvesh@gmail.com">Get in touch</a>
+    </div>
+  </div>
+  <div class="watchlist">
+    <div class="watchlist-head"><span>Profile watchlist</span><span>Live</span></div>
+    <div class="watchlist-row"><span class="wl-label">CGPA</span><span class="wl-value teal">7.37 / 10</span></div>
+    <div class="watchlist-row"><span class="wl-label">Graduation</span><span class="wl-value">2027</span></div>
+    <div class="watchlist-row"><span class="wl-label">Flagship projects</span><span class="wl-value teal">2 shipped</span></div>
+    <div class="watchlist-row"><span class="wl-label">Certifications</span><span class="wl-value teal">10 earned</span></div>
+    <div class="watchlist-row"><span class="wl-label">Core stack</span><span class="wl-value">MERN</span></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="eyebrow">Profile</div>
+  <h2>About</h2>
+  <div class="about-grid">
+    <p class="about-text">
+      I'm a final-year <strong>B.Tech Information Technology</strong> student at Medi-Caps University, graduating in 2027. Most of my hands-on learning has come from building two full products end-to-end: <strong>Tradezione</strong>, a stock trading simulator with real portfolio math, and <strong>FinGoal</strong>, a suite of financial planning calculators people can actually use to think about SIPs, EMIs, and retirement.
+    </p>
+    <p class="about-text">
+      I like the MERN stack because it gets out of the way — React and Tailwind for interfaces that feel responsive, Node and Express for the logic, MongoDB for the data. Lately I've also been building a security-aware base, earning Fortinet's cybersecurity certifications, and sharpening core CS fundamentals: data structures, DBMS, operating systems, and computer networks.
+    </p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="eyebrow">Toolkit</div>
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-cell">
+      <h3>Languages</h3>
+      <div class="chip-row">
+        <span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">C</span><span class="chip">C++</span><span class="chip">Python</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <h3>Frontend</h3>
+      <div class="chip-row">
+        <span class="chip">React.js</span><span class="chip">Tailwind CSS</span><span class="chip">Bootstrap</span><span class="chip">HTML5</span><span class="chip">CSS3</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <h3>Backend</h3>
+      <div class="chip-row">
+        <span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">JWT Auth</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <h3>Data</h3>
+      <div class="chip-row">
+        <span class="chip">MongoDB</span><span class="chip">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <h3>Tools</h3>
+      <div class="chip-row">
+        <span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">Chart.js</span><span class="chip">Axios</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <h3>Foundations</h3>
+      <div class="chip-row">
+        <span class="chip">DSA</span><span class="chip">OOP</span><span class="chip">DBMS</span><span class="chip">OS</span><span class="chip">Networks</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="eyebrow">Work</div>
+  <h2>Projects</h2>
+
+  <div class="project">
+    <div class="project-bar">
+      <span class="dot r"></span><span class="dot a"></span><span class="dot g"></span>
+      <span class="project-bar-title">tradezione — portfolio.dashboard</span>
+    </div>
+    <div class="project-body">
+      <div>
+        <div class="project-title">Tradezione</div>
+        <p class="project-desc">A MERN-stack stock trading and portfolio simulator with JWT authentication, live pricing, and real profit/loss math — not just mock numbers.</p>
+        <ul class="project-feats">
+          <li>Buy/sell simulation, watchlists, and full transaction history</li>
+          <li>Live pricing pulled from the Yahoo Finance API, synced to portfolio value after every trade</li>
+          <li>Dynamic invested value, current value, and P&amp;L calculation, with graceful handling of bad symbols and API failures</li>
+        </ul>
+        <div class="stack-row">
+          <span class="stack-tag">React</span><span class="stack-tag">Node.js</span><span class="stack-tag">Express</span><span class="stack-tag">MongoDB</span><span class="stack-tag">JWT</span><span class="stack-tag">Yahoo Finance API</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/Sarveshsinghbaghel/TradeZione" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+      <div class="mock-panel">
+        <div class="mp-label">PORTFOLIO VALUE</div>
+        <div class="mp-value">₹1,42,860</div>
+        <div class="mp-sub"><span style="color:var(--teal)">▲ +8.4%</span> since last trade</div>
+        <svg class="spark" viewBox="0 0 300 90" preserveAspectRatio="none">
+          <polyline points="0,70 30,64 60,68 90,50 120,55 150,38 180,42 210,26 240,30 270,14 300,18" fill="none" stroke="#21C99C" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="project-bar">
+      <span class="dot r"></span><span class="dot a"></span><span class="dot g"></span>
+      <span class="project-bar-title">fingoal — calculators.suite</span>
+    </div>
+    <div class="project-body">
+      <div>
+        <div class="project-title">FinGoal</div>
+        <p class="project-desc">A web-based financial planning application built to make investment math visual and immediate, with real-time interactive charts.</p>
+        <ul class="project-feats">
+          <li>SIP, SWP, EMI, FD, RD, goal-planning, and retirement calculators</li>
+          <li>Compound interest, SIP maturity, SWP withdrawal, and EMI amortization logic built from scratch</li>
+          <li>Charts that update live as the user changes inputs, via Chart.js</li>
+        </ul>
+        <div class="stack-row">
+          <span class="stack-tag">React</span><span class="stack-tag">Node.js</span><span class="stack-tag">Express</span><span class="stack-tag">MongoDB</span><span class="stack-tag">Chart.js</span><span class="stack-tag">Axios</span>
+        </div>
+      </div>
+      <div class="mock-panel">
+        <div class="mp-label">SIP CALCULATOR</div>
+        <div class="calc-rows">
+          <div class="calc-row"><span>Monthly investment</span><span>₹5,000</span></div>
+          <div class="calc-row"><span>Duration</span><span>10 yrs</span></div>
+          <div class="calc-row"><span>Expected return</span><span>12% p.a.</span></div>
+          <div class="calc-row"><span>Maturity value</span><span style="color:var(--teal)">₹11,61,695</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-project">
+    <div>
+      <h3>Personal portfolio site</h3>
+      <p>A responsive showcase site built with vanilla HTML, CSS, and JavaScript.</p>
+    </div>
+    <div class="stack-row">
+      <span class="stack-tag">HTML5</span><span class="stack-tag">CSS3</span><span class="stack-tag">JavaScript</span>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="eyebrow">Background</div>
+  <h2>Education</h2>
+  <div class="edu-item">
+    <div class="edu-year">2027<br><span style="color:var(--text-faint)">expected</span></div>
+    <div>
+      <div class="edu-title">B.Tech, Information Technology</div>
+      <div class="edu-sub">Medi-Caps University, Indore, Madhya Pradesh</div>
+      <div class="edu-score">CGPA 7.37 / 10 · Coursework: DSA, OOP, DBMS, OS, Computer Networks, Software Engineering, Information Security, Full Stack Web Development, Compiler Design, Theory of Computation</div>
+    </div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-year">Class XII</div>
+    <div>
+      <div class="edu-title">Senior Secondary</div>
+      <div class="edu-score">Score: 66.7%</div>
+    </div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-year">Class X</div>
+    <div>
+      <div class="edu-title">Secondary</div>
+      <div class="edu-score">Score: 80.4%</div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="eyebrow">Verified</div>
+  <h2>Certifications</h2>
+  <div class="cert-grid">
+    <div class="cert-card">
+      <div><div class="cert-name">Fortinet Certified Associate in Cybersecurity</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+      <span class="cert-badge">Valid → 2028</span>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Fortinet Certified Fundamentals in Cybersecurity</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+      <span class="cert-badge">Valid → 2028</span>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">FortiGate 7.6 Operator (Self-Paced)</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Technical Introduction to Cybersecurity 3.0</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Getting Started in Cybersecurity 3.0</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Introduction to the Threat Landscape 3.0</div><div class="cert-issuer">Fortinet Training Institute</div></div>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Alpha — DSA with Java</div><div class="cert-issuer">Apna College</div></div>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Python 3.4.3 Training</div><div class="cert-issuer">IIT Bombay Spoken Tutorial</div></div>
+      <span class="cert-badge">80.00%</span>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Linux Training</div><div class="cert-issuer">IIT Bombay Spoken Tutorial</div></div>
+      <span class="cert-badge">76.67%</span>
+    </div>
+    <div class="cert-card">
+      <div><div class="cert-name">Prompt Engineering with GitHub Copilot</div><div class="cert-issuer">Microsoft / Simplilearn SkillUp</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="eyebrow">Get in touch</div>
+  <h2>Let's build something.</h2>
+  <p class="about-text" style="max-width:52ch; margin:0 auto;">Open to internships and full-time roles where I can keep shipping full-stack products and learning the fundamentals underneath them.</p>
+  <div class="contact-links">
+    <a class="btn btn-primary" href="mailto:singhbaghelsarvesh@gmail.com">Email me</a>
+    <a class="btn btn-ghost" href="https://www.linkedin.com/in/sarvesh-singh-baghel-11845a374/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn btn-ghost" href="https://github.com/Sarveshsinghbaghel" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</section>
+
+<footer>SSB / TERMINAL &nbsp;·&nbsp; Built with React-flavored HTML &amp; a lot of coffee &nbsp;·&nbsp; Indore, India</footer>
+
+<script>
+  const symbols = [
+    {s:'REACT', c:'+12.4%', up:true},
+    {s:'NODE.JS', c:'+8.1%', up:true},
+    {s:'MONGODB', c:'+5.6%', up:true},
+    {s:'EXPRESS', c:'+3.2%', up:true},
+    {s:'JWT-AUTH', c:'STABLE', up:null},
+    {s:'TAILWIND', c:'+9.7%', up:true},
+    {s:'JAVA', c:'+6.3%', up:true},
+    {s:'DSA', c:'+11.0%', up:true},
+    {s:'FORTINET-CERT', c:'VERIFIED', up:null},
+    {s:'CHART.JS', c:'+4.4%', up:true},
+    {s:'GIT', c:'+2.9%', up:true},
+    {s:'MYSQL', c:'+3.8%', up:true}
+  ];
+  const track = document.getElementById('tickerTrack');
+  function renderTicker(){
+    const set = symbols.map(x => `
+      <span class="ticker-item">
+        <span class="sym">${x.s}</span>
+        <span class="chg ${x.up === null ? 'flat' : 'up'}">${x.up === true ? '▲' : ''} ${x.c}</span>
+      </span>
+    `).join('');
+    track.innerHTML = set + set;
+  }
+  renderTicker();
+</script>
+
+</body>
+</html>
